@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Admin - Death Claims{% endblock %}
+
+{% block content %}
+<h2>Death claims (admin)</h2>
+
+{% if claims %}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Deceased user</th>
+        <th>Contact email</th>
+        <th>Status</th>
+        <th>Message</th>
+        <th>Actions</th>
+    </tr>
+    {% for claim in claims %}
+    <tr>
+        <td>{{ claim.id }}</td>
+        <td>{{ claim.deceased_user.full_name }} ({{ claim.deceased_user.email }})</td>
+        <td>{{ claim.contact_email }}</td>
+        <td>{{ claim.status }}</td>
+        <td>{{ claim.message }}</td>
+        <td>
+            {% if claim.status == "pending" %}
+                <a href="{{ url_for('approve_claim', claim_id=claim.id) }}"><button type="button">Approve</button></a>
+                <a href="{{ url_for('reject_claim', claim_id=claim.id) }}"><button type="button">Reject</button></a>
+            {% endif %}
+            <a href="{{ url_for('executor_tasks', deceased_id=claim.deceased_user.id) }}"><button type="button">View tasks</button></a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No death claims submitted yet.</p>
+{% endif %}
+
+{% endblock %}

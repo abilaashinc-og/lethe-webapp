@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Plan Execution Result{% endblock %}
+
+{% block content %}
+<h2>Plan execution result (simulation)</h2>
+
+<h3>Account statuses</h3>
+{% if accounts %}
+<table>
+    <tr>
+        <th>Service</th>
+        <th>Identifier</th>
+        <th>Action</th>
+        <th>Status</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.service_name }}</td>
+        <td>{{ acc.identifier }}</td>
+        <td>{{ acc.action }}</td>
+        <td>{{ acc.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No accounts found.</p>
+{% endif %}
+
+<h3>Steps for the executor</h3>
+
+{% if accounts %}
+{% for acc in accounts %}
+<div style="border:1px solid #ccc; margin:15px auto; padding:10px; max-width:700px; text-align:left;">
+    <strong>Service:</strong> {{ acc.service_name }}<br>
+    <strong>Account identifier:</strong> {{ acc.identifier }}<br>
+    <strong>Requested action:</strong> {{ acc.action|capitalize }}<br><br>
+
+    {% if acc.action == "delete" %}
+        <ol>
+            <li>Go to the official support/help page of {{ acc.service_name }}.</li>
+            <li>Search for “delete account” or “removal of deceased user account”.</li>
+            <li>Locate the account removal request form or instructions.</li>
+            <li>Prepare required documents such as a death certificate and your ID.</li>
+            <li>Submit the request and keep any confirmation details for records.</li>
+        </ol>
+
+    {% elif acc.action == "memorialize" %}
+        <ol>
+            <li>Visit the help/support section of {{ acc.service_name }}.</li>
+            <li>Search for “memorialize account” or “turn account into memorial”.</li>
+            <li>Fill out the memorialization form with profile details and your contact info.</li>
+            <li>Upload proof of death if required by the platform.</li>
+            <li>Wait for confirmation that the account has been memorialized.</li>
+        </ol>
+
+    {% elif acc.action == "archive" %}
+        <ol>
+            <li>If you have lawful access, sign in to the account.</li>
+            <li>Use any available “download your data” or data export tool.</li>
+            <li>Store the downloaded data securely, preferably encrypted.</li>
+            <li>Only share the archived data with authorised individuals.</li>
+        </ol>
+
+    {% else %}
+        <ol>
+            <li>No special action was requested for this account.</li>
+            <li>You may leave it as-is or follow family/legal guidance.</li>
+        </ol>
+    {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<p>No accounts configured in the plan yet.</p>
+{% endif %}
+
+{% endblock %}

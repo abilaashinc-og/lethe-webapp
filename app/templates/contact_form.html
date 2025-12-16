@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Add or Edit Trusted Contact{% endblock %}
+
+{% block content %}
+<h2>{% if contact %}Edit{% else %}Add{% endif %} Trusted Contact</h2>
+
+<form method="post">
+    <label>Full name</label><br>
+    <input type="text" name="name" required value="{{ contact.name if contact else '' }}"><br><br>
+
+    <label>Relationship</label><br>
+    <input type="text" name="relationship" value="{{ contact.relationship if contact else '' }}"><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email" required value="{{ contact.email if contact else '' }}"><br><br>
+
+    <label>Primary contact</label>
+    <input type="checkbox" name="is_primary" {% if contact and contact.is_primary %}checked{% endif %}><br><br>
+
+    <button type="submit">Save contact</button>
+</form>
+{% endblock %}

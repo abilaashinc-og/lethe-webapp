@@ -1,0 +1,103 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.content-wrapper {
+    min-height: 70vh;
+    padding-bottom: 20px;
+}
+
+nav {
+    padding: 12px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.flash-messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+    color: red;
+}
+
+form {
+    display: inline-block;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    margin: 20px auto;
+}
+
+input,
+select,
+textarea {
+    width: 250px;
+    padding: 6px;
+    margin-top: 4px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    width: auto;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px auto;
+    display: block;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+h1, h2, h3 {
+    margin-top: 20px;
+}
+
+footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}

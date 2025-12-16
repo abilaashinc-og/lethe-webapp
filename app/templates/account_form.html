@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Add or Edit Online Account{% endblock %}
+
+{% block content %}
+<h2>{% if account %}Edit{% else %}Add{% endif %} Online Account</h2>
+
+<form method="post">
+    <label>Service name</label><br>
+    <input type="text" name="service_name" required value="{{ account.service_name if account else '' }}"><br><br>
+
+    {% set existing_category = account.category if account else '' %}
+
+    <label>Category</label><br>
+    <select name="category_select" id="category_select" required>
+        <option value="">-- Choose a category --</option>
+        <option value="social media">Social media</option>
+        <option value="cloud storage">Cloud storage</option>
+        <option value="other">Other</option>
+    </select><br><br>
+
+    <div id="other_category_box" style="display:none;">
+        <label>Enter category</label><br>
+        <input type="text" name="category_manual" id="category_manual"><br><br>
+    </div>
+
+    <input type="hidden" id="existing_category" value="{{ existing_category }}">
+
+    <label>Account identifier (email or username)</label><br>
+    <input type="text" name="identifier" required value="{{ account.identifier if account else '' }}"><br><br>
+
+    {% set current_action = account.action if account else '' %}
+    <label>Action after death</label><br>
+    <select name="action" required>
+        <option value="delete" {% if current_action == "delete" %}selected{% endif %}>Delete account</option>
+        <option value="memorialize" {% if current_action == "memorialize" %}selected{% endif %}>Memorialize (if supported)</option>
+        <option value="archive" {% if current_action == "archive" %}selected{% endif %}>Archive and keep</option>
+        <option value="none" {% if current_action == "none" %}selected{% endif %}>No action</option>
+    </select><br><br>
+
+    <label>Notes (optional)</label><br>
+    <textarea name="notes" rows="4">{% if account and account.notes %}{{ account.notes }}{% endif %}</textarea><br><br>
+
+    <button type="submit">Save account</button>
+</form>
+
+<script>
+function initCategory() {
+    let existing = document.getElementById("existing_category").value.toLowerCase();
+    let select = document.getElementById("category_select");
+    let otherBox = document.getElementById("other_category_box");
+    let manualInput = document.getElementById("category_manual");
+
+    if (!existing) return;
+
+    if (existing === "social media") {
+        select.value = "social media";
+        otherBox.style.display = "none";
+    } else if (existing === "cloud storage") {
+        select.value = "cloud storage";
+        otherBox.style.display = "none";
+    } else {
+        select.value = "other";
+        otherBox.style.display = "block";
+        manualInput.value = existing;
+        manualInput.required = true;
+    }
+}
+
+document.getElementById("category_select").addEventListener("change", function() {
+    let selected = this.value;
+    let otherBox = document.getElementById("other_category_box");
+    let manualInput = document.getElementById("category_manual");
+
+    if (selected === "other") {
+        otherBox.style.display = "block";
+        manualInput.required = true;
+    } else {
+        otherBox.style.display = "none";
+        manualInput.required = false;
+        manualInput.value = "";
+    }
+});
+
+window.onload = initCategory;
+</script>
+{% endblock %}

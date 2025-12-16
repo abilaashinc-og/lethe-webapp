@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}My Digital Legacy Plan{% endblock %}
+
+{% block content %}
+<h2>My Digital Legacy Plan</h2>
+
+<p>This page summarizes what will happen to your online accounts and who you have trusted to carry out your wishes.</p>
+
+<h3>Online accounts and actions</h3>
+
+{% if accounts %}
+<table>
+    <tr>
+        <th>Service</th>
+        <th>Category</th>
+        <th>Identifier</th>
+        <th>Action after death</th>
+        <th>Status</th>
+        <th>Notes</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.service_name }}</td>
+        <td>{{ acc.category }}</td>
+        <td>{{ acc.identifier }}</td>
+        <td>{{ acc.action }}</td>
+        <td>{{ acc.status }}</td>
+        <td>{{ acc.notes }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>You have not added any online accounts to your plan yet.</p>
+{% endif %}
+
+<p>
+    <a href="{{ url_for('manage_accounts') }}"><button>Update my accounts</button></a>
+</p>
+
+<h3>Trusted contacts</h3>
+
+{% if contacts %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Relationship</th>
+        <th>Email</th>
+        <th>Primary</th>
+    </tr>
+    {% for c in contacts %}
+    <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ c.relationship }}</td>
+        <td>{{ c.email }}</td>
+        <td>{% if c.is_primary %}Yes{% else %}No{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>You have not added any trusted contacts yet.</p>
+{% endif %}
+
+<p>
+    <a href="{{ url_for('manage_contacts') }}"><button>Update trusted contacts</button></a>
+</p>
+
+<h3>Main executor</h3>
+{% set primary = None %}
+{% for c in contacts %}
+    {% if c.is_primary %}
+        {% set primary = c %}
+    {% endif %}
+{% endfor %}
+
+{% if primary %}
+    <p>{{ primary.name }} ({{ primary.email }}) is marked as your primary executor.</p>
+{% else %}
+    <p>No primary executor selected. Please mark one trusted contact as primary.</p>
+{% endif %}
+
+<h3>Execute plan</h3>
+<form method="post" action="{{ url_for('execute_plan') }}" onsubmit="return confirm('Are you sure you want to simulate executing your plan?');">
+    <button type="submit">Execute my plan </button>
+</form>
+<p>
+    <a href="{{ url_for('execution_result') }}"><button type="button">View last execution result</button></a>
+</p>
+
+<p>
+    <em>This prototype does not directly delete or modify accounts on any external platform. The next page shows practical steps that an executor can follow on each service.</em>
+</p>
+{% endblock %}

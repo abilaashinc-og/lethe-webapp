@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Executor Portal{% endblock %}
+
+{% block content %}
+<h2>Executor and Trusted Contact Portal</h2>
+
+<p>
+    If you have been chosen as a trusted contact or executor by a Lethe user, you can use this page to trigger their plan.
+    The system will show a list of accounts and detailed steps you should follow on each platform.
+</p>
+
+<form method="post">
+    <label>Your email address</label><br>
+    <input type="email" name="contact_email" required><br><br>
+
+    <label>Email address of the deceased user</label><br>
+    <input type="email" name="deceased_email" required><br><br>
+
+    <label>Additional information or message (optional)</label><br>
+    <textarea name="message" rows="4"></textarea><br><br>
+
+    <button type="submit">Trigger plan and view steps</button>
+</form>
+{% endblock %}

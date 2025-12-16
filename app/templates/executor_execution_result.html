@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Executor Plan Execution{% endblock %}
+
+{% block content %}
+<h2>Plan execution for {{ deceased.full_name }}</h2>
+
+{% if message %}
+<p><strong>Executor message:</strong> {{ message }}</p>
+{% endif %}
+
+<h3>Accounts and requested actions</h3>
+
+{% if accounts %}
+<table>
+    <tr>
+        <th>Service</th>
+        <th>Identifier</th>
+        <th>Action</th>
+        <th>Status</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.service_name }}</td>
+        <td>{{ acc.identifier }}</td>
+        <td>{{ acc.action }}</td>
+        <td>{{ acc.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No accounts found for this user.</p>
+{% endif %}
+
+<h3>Practical steps for you as executor</h3>
+<p>The sections below give general guidance for each account based on the user’s wishes.</p>
+
+{% if accounts %}
+{% for acc in accounts %}
+<div style="border:1px solid #ccc; margin:15px auto; padding:10px; max-width:700px;">
+    <strong>Service:</strong> {{ acc.service_name }}<br>
+    <strong>Account identifier:</strong> {{ acc.identifier }}<br>
+    <strong>Requested action:</strong> {{ acc.action|capitalize }}<br><br>
+
+    {% if acc.action == "delete" %}
+        <p><u>Steps to request deletion:</u></p>
+        <ol style="text-align:left;">
+            <li>Open the official help / support site for {{ acc.service_name }} and search for “deceased user account” or “delete account after death”. :contentReference[oaicite:9]{index=9}</li>
+            <li>Use any form described as “request removal of a deceased person’s account” or similar. :contentReference[oaicite:10]{index=10}</li>
+            <li>Gather:
+                <ul>
+                    <li>Death certificate of the user</li>
+                    <li>Your ID</li>
+                    <li>Proof that you are next of kin or executor if requested</li>
+                </ul>
+            </li>
+            <li>Submit the request and keep confirmation emails or reference numbers.</li>
+        </ol>
+    {% elif acc.action == "memorialize" %}
+        <p><u>Steps to request memorialization:</u></p>
+        <ol style="text-align:left;">
+            <li>Search the platform’s help pages for “memorialize account” or “memorialization request”. :contentReference[oaicite:11]{index=11}</li>
+            <li>Fill in the memorialization form, including profile link / username and your contact details.</li>
+            <li>Upload proof of death (for example a death certificate) and any additional information they ask for. :contentReference[oaicite:12]{index=12}</li>
+            <li>Read what memorialization means for this service so you know what will remain visible and what will be locked. :contentReference[oaicite:13]{index=13}</li>
+        </ol>
+    {% elif acc.action == "archive" %}
+        <p><u>Steps to archive / preserve:</u></p>
+        <ol style="text-align:left;">
+            <li>Use the platform’s “download your data” or similar tool if you have lawful access to the account. :contentReference[oaicite:14]{index=14}</li>
+            <li>Store any exported data securely and share only with people who are allowed to see it.</li>
+            <li>If you need data but do not have login access, check the help pages for options aimed at executors or next of kin. :contentReference[oaicite:15]{index=15}</li>
+        </ol>
+    {% else %}
+        <p>No specific action requested. You can leave this account as it is or handle it according to legal advice and family decisions. :contentReference[oaicite:16]{index=16}</p>
+    {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<p>No accounts configured for this user’s plan.</p>
+{% endif %}
+
+<h3>Execution log</h3>
+{% if logs %}
+<ul>
+    {% for log in logs %}
+    <li>{{ log.timestamp }} - {{ log.action_taken }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No log entries for this user yet.</p>
+{% endif %}
+
+<p>
+    <em>This page is guidance only. You must always follow each platform’s official process and terms of service when handling the accounts of a deceased person.</em>
+</p>
+{% endblock %}

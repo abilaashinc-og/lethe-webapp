@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to Lethe</h1>
+<p>Plan what should happen to your online accounts after you pass away.</p>
+
+{% if not current_user.is_authenticated %}
+    <p>
+        <a href="{{ url_for('register') }}"><button>Create an account</button></a>
+        <a href="{{ url_for('login') }}"><button>Login</button></a>
+    </p>
+{% else %}
+    <p>
+        <a href="{{ url_for('dashboard') }}"><button>Go to my dashboard</button></a>
+    </p>
+{% endif %}
+
+<p>
+    <a href="{{ url_for('executor_portal') }}"><button>I am a trusted contact / executor</button></a>
+</p>
+{% endblock %}

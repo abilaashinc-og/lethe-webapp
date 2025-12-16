@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Executor Tasks{% endblock %}
+
+{% block content %}
+<h2>Executor tasks for {{ deceased.full_name }}</h2>
+
+<h3>Accounts and requested actions</h3>
+
+{% if accounts %}
+<table>
+    <tr>
+        <th>Service</th>
+        <th>Identifier</th>
+        <th>Action after death</th>
+        <th>Status</th>
+        <th>Notes</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.service_name }}</td>
+        <td>{{ acc.identifier }}</td>
+        <td>{{ acc.action }}</td>
+        <td>{{ acc.status }}</td>
+        <td>{{ acc.notes }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No accounts found for this user.</p>
+{% endif %}
+
+<h3>Trusted contacts for this user</h3>
+
+{% if contacts %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Relationship</th>
+        <th>Email</th>
+        <th>Primary</th>
+    </tr>
+    {% for c in contacts %}
+    <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ c.relationship }}</td>
+        <td>{{ c.email }}</td>
+        <td>{% if c.is_primary %}Yes{% else %}No{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No trusted contacts recorded for this user.</p>
+{% endif %}
+
+<p>
+    <em>As executor you should use this checklist to contact platforms and request deletion, memorialization or archiving according to the plan.</em>
+</p>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My Online Accounts{% endblock %}
+
+{% block content %}
+<h2>My Online Accounts</h2>
+
+<p>
+    <a href="{{ url_for('add_account') }}"><button>Add new account</button></a>
+</p>
+
+{% if accounts %}
+<table>
+    <tr>
+        <th>Service</th>
+        <th>Category</th>
+        <th>Identifier</th>
+        <th>Action after death</th>
+        <th>Status</th>
+        <th>Notes</th>
+        <th>Actions</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.service_name }}</td>
+        <td>{{ acc.category }}</td>
+        <td>{{ acc.identifier }}</td>
+        <td>{{ acc.action }}</td>
+        <td>{{ acc.status }}</td>
+        <td>{{ acc.notes }}</td>
+        <td>
+            <form method="post" action="{{ url_for('delete_account', account_id=acc.id) }}" onsubmit="return confirm('Delete this account?');">
+                <a href="{{ url_for('edit_account', account_id=acc.id) }}"><button type="button">Edit</button></a>
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No accounts added yet.</p>
+{% endif %}
+{% endblock %}
